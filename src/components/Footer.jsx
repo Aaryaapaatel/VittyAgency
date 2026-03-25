@@ -2,6 +2,7 @@ import React from 'react'
 import igIcon from '../assets/instagram.png'
 import inIcon from '../assets/linkedin.png'
 import gmIcon from '../assets/gmail.png'
+import EmailProviderChooser, { buildWebmailComposeUrl } from './EmailProviderChooser.jsx'
 
 const FOOTER_LINKS = {
   Services: [
@@ -16,10 +17,24 @@ const FOOTER_LINKS = {
 }
 
 export default function Footer() {
+  const [chooserOpen, setChooserOpen] = React.useState(false)
+
   const handleScroll = (e, href) => {
     e.preventDefault()
     const target = document.querySelector(href)
     if (target) target.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  const openEmailCompose = (provider) => {
+    const composeUrl = buildWebmailComposeUrl(provider, {
+      to: 'vittyagency@gmail.com',
+      subject: '[Vitty Agency] New Inquiry',
+      body: '',
+    })
+    sessionStorage.setItem('vitty_email_pending', '1')
+    const popup = window.open(composeUrl, '_blank')
+    if (popup) popup.opener = null
+    setChooserOpen(false)
   }
 
   return (
@@ -66,9 +81,9 @@ export default function Footer() {
             {[
               { id: 'in', icon: inIcon, href: 'https://www.linkedin.com/company/vitty-agency/' },
               { id: 'ig', icon: igIcon, href: 'https://www.instagram.com/vitty.agency?igsh=bjBvODBoeGN0aWwy' },
-              { id: 'gm', icon: gmIcon, href: 'mailto:vittyagency@gmail.com' }
+              { id: 'gm', icon: gmIcon, href: '#', onClick: (e) => { e.preventDefault(); setChooserOpen(true) } }
             ].map((s) => (
-              <SocialBtn key={s.id} icon={s.icon} href={s.href} />
+              <SocialBtn key={s.id} icon={s.icon} href={s.href} onClick={s.onClick} />
             ))}
           </div>
         </div>
@@ -136,6 +151,14 @@ export default function Footer() {
           .footer-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
+
+      <EmailProviderChooser
+        open={chooserOpen}
+        onClose={() => setChooserOpen(false)}
+        onChoose={openEmailCompose}
+        title="Choose your email provider"
+        subtitle="Open a new draft to vittyagency@gmail.com in your browser."
+      />
     </footer>
   )
 }
@@ -162,11 +185,12 @@ function FooterLink({ href, onClick, children }) {
   )
 }
 
-function SocialBtn({ icon, href }) {
+function SocialBtn({ icon, href, onClick }) {
   const [hov, setHov] = React.useState(false)
   return (
     <a
       href={href}
+      onClick={onClick}
       target={href && href.startsWith('http') ? '_blank' : '_self'}
       rel={href && href.startsWith('http') ? 'noopener noreferrer' : ''}
       onMouseEnter={() => setHov(true)}

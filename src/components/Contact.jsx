@@ -1,14 +1,43 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import useReveal from './useReveal.js'
 import { SectionLabel } from './Services.jsx'
+import EmailProviderChooser, { buildWebmailComposeUrl } from './EmailProviderChooser.jsx'
 
 export default function Contact() {
+  const initialForm = { fname: '', lname: '', email: '', company: '', service: '', message: '' }
   const [leftRef, leftVisible] = useReveal()
   const [rightRef, rightVisible] = useReveal()
 
-  const [form, setForm] = useState({ fname: '', lname: '', email: '', company: '', service: '', message: '' })
+  const [form, setForm] = useState(initialForm)
   const [status, setStatus] = useState(null) // null | 'sending' | 'sent' | 'error'
+  const [chooserOpen, setChooserOpen] = useState(false)
+  const [emailDraft, setEmailDraft] = useState(null)
+
+  useEffect(() => {
+    const syncStatusFromReturn = () => {
+      if (sessionStorage.getItem('vitty_email_pending') === '1') {
+        sessionStorage.removeItem('vitty_email_pending')
+        setStatus('sent')
+        setForm(initialForm)
+      }
+    }
+
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible') {
+        syncStatusFromReturn()
+      }
+    }
+
+    syncStatusFromReturn()
+    window.addEventListener('focus', syncStatusFromReturn)
+    document.addEventListener('visibilitychange', handleVisibility)
+
+    return () => {
+      window.removeEventListener('focus', syncStatusFromReturn)
+      document.removeEventListener('visibilitychange', handleVisibility)
+    }
+  }, [])
 
   const handleChange = (e) => setForm(f => ({ ...f, [e.target.name]: e.target.value }))
 
@@ -23,17 +52,32 @@ export default function Contact() {
     if (!emailReg.test(email)) { setStatus('error'); return }
 
     setStatus('sending')
-    const subject = encodeURIComponent(`[Vitty Agency] Inquiry from ${fname} ${form.lname} — ${form.service || 'General'}`)
-    const body = encodeURIComponent(
+    const subject = `[Vitty Agency] Inquiry from ${fname} ${form.lname} - ${form.service || 'General'}`
+    const body = (
       `NEW INQUIRY — VITTY AGENCY\n\n` +
       `Name: ${fname} ${form.lname}\nEmail: ${email}\n` +
       `Company: ${form.company || 'Not provided'}\nService: ${form.service || 'Not specified'}\n\n` +
       `MESSAGE:\n${message}\n\n---\nSent via vittyagency.com`
     )
     setTimeout(() => {
-      window.location.href = `mailto:hello@vittyagency.com?subject=${subject}&body=${body}`
-      setStatus('sent')
-    }, 800)
+      setEmailDraft({
+        to: 'anjali.a.p3112@gmail.com',
+        subject,
+        body,
+      })
+      setChooserOpen(true)
+      setStatus(null)
+    }, 350)
+  }
+
+  const handleProviderChoose = (provider) => {
+    if (!emailDraft) return
+    const composeUrl = buildWebmailComposeUrl(provider, emailDraft)
+    sessionStorage.setItem('vitty_email_pending', '1')
+    const popup = window.open(composeUrl, '_blank')
+    if (popup) popup.opener = null
+    setChooserOpen(false)
+    setStatus(null)
   }
 
   return (
@@ -81,7 +125,7 @@ export default function Contact() {
         </div>
 
         {[
-          { icon: '✉', label: 'Email', val: 'hello@vittyagency.com' },
+          { icon: '✉', label: 'Email', val: 'vittyagency@gmail.com' },
           { icon: '🌐', label: 'Website', val: 'vittyagency.com' },
           { icon: '⏱', label: 'Response Time', val: 'Within 24 hours' },
         ].map(({ icon, label, val }) => (
@@ -179,7 +223,7 @@ export default function Contact() {
 
           {status === 'sent' && (
             <div style={{ marginTop: '1rem', padding: '10px 16px', borderLeft: '3px solid var(--cyan)', color: 'var(--cyan)', background: 'rgba(0,212,255,0.05)', fontFamily: 'var(--font-mono)', fontSize: '0.75rem', letterSpacing: '1px' }}>
-              ✓ Your email client will open to send your inquiry to hello@vittyagency.com
+              ✓ Email sent successfully.
             </div>
           )}
           {status === 'error' && (
@@ -189,6 +233,17 @@ export default function Contact() {
           )}
         </form>
       </motion.div>
+
+      <EmailProviderChooser
+        open={chooserOpen}
+        onClose={() => {
+          setChooserOpen(false)
+          setStatus(null)
+        }}
+        onChoose={handleProviderChoose}
+        title="Choose where to send"
+        subtitle="Pick Gmail or Outlook to open this inquiry draft in your browser."
+      />
 
       <style>{`
         @media (max-width: 900px) {
