@@ -38,8 +38,8 @@ export default function Navbar() {
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '0 5vw',
-          height: scrolled ? 60 : 72,
-          background: 'rgba(5,8,16,0.88)',
+          height: scrolled ? 80 : 72,
+          background: 'rgba(4, 14, 44, 0.88)',
           backdropFilter: 'blur(20px)',
           borderBottom: `1px solid rgba(26,74,255,${scrolled ? 0.4 : 0.2})`,
           transition: 'height 0.3s, border-color 0.3s',
@@ -49,6 +49,7 @@ export default function Navbar() {
         <a
           href="#hero"
           onClick={(e) => handleNav(e, '#hero')}
+          className="nav-logo"
           style={{
             display: 'inline-flex',
             alignItems: 'center',
@@ -60,9 +61,10 @@ export default function Navbar() {
           <img
             src="/favicon.png"
             alt="Vitty"
+            className="nav-logo-img"
             style={{
-              width: scrolled ? 40 : 52,
-              height: scrolled ? 40 : 52,
+              width: scrolled ? 310 : 322,
+              height: scrolled ? 310 : 322,
               objectFit: 'contain',
               transition: 'width 0.3s, height 0.3s',
             }}
@@ -185,6 +187,8 @@ export default function Navbar() {
         @media (max-width: 768px) {
           .nav-desktop { display: none !important; }
           .nav-mobile { display: flex !important; }
+          .nav-logo { margin-right: auto; }
+          .nav-logo-img { width: 140px !important; height: 140px !important; }
         }
         @media (min-width: 769px) {
           .nav-mobile { display: none !important; }

@@ -1,4 +1,7 @@
 import React from 'react'
+import igIcon from '../assets/instagram.png'
+import inIcon from '../assets/linkedin.png'
+import gmIcon from '../assets/gmail.png'
 
 const FOOTER_LINKS = {
   Services: [
@@ -60,8 +63,12 @@ export default function Footer() {
             We build intelligent AI automation systems for business coaches — eliminating operational complexity and delivering measurable ROI within 30 days.
           </p>
           <div style={{ display: 'flex', gap: '0.7rem' }}>
-            {['in', '𝕏', 'ig', 'yt'].map((s) => (
-              <SocialBtn key={s} label={s} />
+            {[
+              { id: 'in', icon: inIcon, href: 'https://www.linkedin.com/company/vitty-agency/' },
+              { id: 'ig', icon: igIcon, href: 'https://www.instagram.com/vitty.agency?igsh=bjBvODBoeGN0aWwy' },
+              { id: 'gm', icon: gmIcon, href: 'mailto:vittyagency@gmail.com' }
+            ].map((s) => (
+              <SocialBtn key={s.id} icon={s.icon} href={s.href} />
             ))}
           </div>
         </div>
@@ -110,14 +117,14 @@ export default function Footer() {
           fontSize: '0.68rem', letterSpacing: '1px',
           color: 'var(--white-muted)',
         }}>
-          © 2025 <span style={{ color: 'var(--cyan)' }}>VITTY AGENCY</span>. All Rights Reserved. &nbsp;|&nbsp; hello@vittyagency.com
+          © {new Date().getFullYear()} <span style={{ color: 'var(--cyan)' }}>VITTY AGENCY</span>. All Rights Reserved. &nbsp;|&nbsp; vittyagency@gmail.com
         </div>
         <div style={{
           fontFamily: 'var(--font-mono)',
           fontSize: '0.62rem', letterSpacing: '2px',
           color: 'rgba(240,244,255,0.18)',
         }}>
-          v1.0.0 // BUILD_STABLE
+
         </div>
       </div>
 
@@ -155,11 +162,13 @@ function FooterLink({ href, onClick, children }) {
   )
 }
 
-function SocialBtn({ label }) {
+function SocialBtn({ icon, href }) {
   const [hov, setHov] = React.useState(false)
   return (
     <a
-      href="#"
+      href={href}
+      target={href && href.startsWith('http') ? '_blank' : '_self'}
+      rel={href && href.startsWith('http') ? 'noopener noreferrer' : ''}
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
       style={{
@@ -167,13 +176,22 @@ function SocialBtn({ label }) {
         background: hov ? 'rgba(0,212,255,0.15)' : 'rgba(26,74,255,0.1)',
         border: `1px solid ${hov ? 'var(--cyan)' : 'rgba(26,74,255,0.3)'}`,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        color: hov ? 'var(--cyan)' : 'var(--white-dim)',
-        textDecoration: 'none', fontSize: '0.82rem',
+        textDecoration: 'none',
         transition: 'all 0.2s',
         clipPath: 'polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%)',
       }}
     >
-      {label}
+      <img 
+        src={icon} 
+        alt="social icon" 
+        style={{ 
+          width: 18, 
+          height: 18, 
+          objectFit: 'contain', 
+          opacity: hov ? 1 : 0.7, 
+          transition: 'all 0.2s' 
+        }} 
+      />
     </a>
   )
 }
