@@ -5,24 +5,24 @@ export default function Loader({ onComplete }) {
   const fullText = "VITTY"
 
   useEffect(() => {
-    // 5 chars * 150ms (stagger) + 400ms duration + 500ms visual hangtime = ~1650ms
-    const timer = setTimeout(() => onComplete(), 1650)
+    // 5 chars * 100ms (stagger) + 800ms duration + 600ms visual hangtime = 1800ms
+    const timer = setTimeout(() => onComplete(), 1800)
     return () => clearTimeout(timer)
   }, [onComplete])
 
   const containerVar = {
     hidden: {},
-    show: { transition: { staggerChildren: 0.15 } }
+    show: { transition: { staggerChildren: 0.1 } }
   }
 
   const topVar = {
-    hidden: { y: '-80%', opacity: 0 },
-    show: { y: '0%', opacity: 1, transition: { duration: 0.4, ease: 'easeOut' } }
+    hidden: { y: '-100%', opacity: 0, filter: 'blur(4px)' },
+    show: { y: '0%', opacity: 1, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
   }
 
   const bottomVar = {
-    hidden: { y: '80%', opacity: 0 },
-    show: { y: '0%', opacity: 1, transition: { duration: 0.4, ease: 'easeOut' } }
+    hidden: { y: '100%', opacity: 0, filter: 'blur(4px)' },
+    show: { y: '0%', opacity: 1, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
   }
 
   return (
