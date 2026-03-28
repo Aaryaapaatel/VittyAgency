@@ -168,7 +168,7 @@ export default function Hero() {
         }
         @media (max-width: 768px) {
           .vitty-desktop-bg { display: none; }
-          .vitty-mobile-bg { display: block; }
+          .vitty-mobile-bg { display: block; object-position: bottom left; }
           .vitty-hero-overlay { background: rgba(4, 6, 20, 0.75); }
         }
       `}</style>
