@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import heroImg from '../assets/Animate_image_rotate_202603281700-ezgif.com-video-to-avif-converter.avif'
+import mobileHeroImg from '../assets/mobile-hero.avif'
 
 const STATS = [
   { num: '87', suffix: '%', label: 'Time Saved\nPer Week' },
@@ -39,7 +40,8 @@ export default function Hero() {
       style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden' }}
     >
       {/* Background Images */}
-      <img src={heroImg} alt="Hero Background" className="vitty-hero-bg" />
+      <img src={heroImg} alt="Hero Background Desktop" className="vitty-hero-bg vitty-desktop-bg" />
+      <img src={mobileHeroImg} alt="Hero Background Mobile" className="vitty-hero-bg vitty-mobile-bg" />
 
       {/* Dark overlay */}
       <div className="vitty-hero-overlay" />
