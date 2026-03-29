@@ -37,7 +37,7 @@ export default function Hero() {
     <section
       ref={containerRef}
       id="hero"
-      style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden' }}
+      style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden', backgroundColor: '#0b1c2e' }}
     >
       {/* Background Images */}
       <img src={heroImg} alt="Hero Background Desktop" className="vitty-hero-bg vitty-desktop-bg" />
@@ -48,8 +48,8 @@ export default function Hero() {
 
       {/* Radial glow */}
       <div style={{
-        position: 'absolute', width: 700, height: 700, borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(26,74,255,0.12) 0%, transparent 70%)',
+        position: 'absolute', width: 820, height: 820, borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(11,28,46,0.2) 0%, transparent 72%)',
         top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
         zIndex: 2, pointerEvents: 'none',
       }} />
@@ -157,7 +157,7 @@ export default function Hero() {
         .vitty-hero-overlay {
           position: absolute;
           inset: 0;
-          background: rgba(4, 6, 20, 0.55);
+          background: rgba(7, 22, 36, 0.6);
           z-index: 1;
         }
         @media (max-width: 992px) {
@@ -168,7 +168,13 @@ export default function Hero() {
         }
         @media (max-width: 768px) {
           .vitty-desktop-bg { display: none; }
-          .vitty-mobile-bg { display: block; object-fit: cover; object-position: center; }
+          .vitty-mobile-bg { 
+            display: block; 
+            object-fit: contain; 
+            object-position: top;
+            -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+          }
           .vitty-hero-overlay { background: rgba(4, 6, 20, 0.75); }
         }
       `}</style>

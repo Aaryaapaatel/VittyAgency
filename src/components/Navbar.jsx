@@ -165,11 +165,13 @@ export default function Navbar({ loaderDone }) {
 
       {/* Mobile/Desktop display rules */}
       <style>{`
-        @media (max-width: 768px) {
+        /* Mobile-first: hide desktop links on tablets/phones */
+        @media (max-width: 1024px) {
           .nav-desktop { display: none !important; }
           .nav-mobile { display: flex !important; }
         }
-        @media (min-width: 769px) {
+        /* Desktop and large tablets landscape */
+        @media (min-width: 1025px) {
           .nav-mobile { display: none !important; }
           .nav-desktop { display: flex !important; }
         }
