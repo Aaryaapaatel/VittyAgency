@@ -61,7 +61,7 @@ export default function Contact() {
     )
     setTimeout(() => {
       setEmailDraft({
-        to: 'anjali.a.p3112@gmail.com',
+        to: 'vittyagency@gmail.com',
         subject,
         body,
       })
