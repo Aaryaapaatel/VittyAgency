@@ -63,7 +63,7 @@ src/
 
 ## Contact Form
 
-The form builds a dynamic `mailto` link to `hello@vittyagency.com` with all form fields pre-filled in the email body. This can be easily swapped out for an API integration (like EmailJS or a custom backend) by modifying the `handleSubmit` logic in `Contact.jsx`.
+The form builds a dynamic `mailto` link to `vittyagency@gmail.com` with all form fields pre-filled in the email body. This can be easily swapped out for an API integration (like EmailJS or a custom backend) by modifying the `handleSubmit` logic in `Contact.jsx`.
 
 ## Colors
 
