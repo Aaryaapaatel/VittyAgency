@@ -1,15 +1,28 @@
-# Vitty Agency — Website
+# Vitty Agency 
 
-**Stack:** React 18 + Vite + JavaScript + Framer Motion + Three.js
+A modern, highly-interactive landing page built for Vitty Agency, featuring a premium design, smooth scroll navigation, and engaging animations.
+
+**Live Website:** [www.vittyagency.com](https://www.vittyagency.com)
+
+## Stack
+
+- **Framework:** React 18 + Vite
+- **Styling:** Custom CSS (Flexbox/Grid, CSS Variables)
+- **Animations:** Framer Motion + custom CSS animations + Canvas/Three.js
 
 ## Quick Start
 
+To run this project locally:
+
 ```bash
+# Install dependencies
 npm install
+
+# Start development server
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173)
+Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ## Build for Production
 
@@ -22,17 +35,16 @@ npm run preview
 
 ```
 src/
-├── App.jsx                  # Root layout, all sections assembled
+├── App.jsx                  # Root layout, lazy loads sections
 ├── index.css                # Global CSS variables & base styles
 ├── main.jsx                 # React DOM entry point
 └── components/
-    ├── Loader.jsx            # Animated boot screen (Framer Motion)
-    ├── Cursor.jsx            # Custom magnetic cursor with ring follower
+    ├── Loader.jsx            # Animated typing boot screen
     ├── GearCanvas.jsx        # Canvas-drawn animated gear wheels (background)
     ├── Navbar.jsx            # Sticky nav — smooth scroll to all sections
-    ├── Hero.jsx              # Hero section with animated counters (IntersectionObserver)
+    ├── Hero.jsx              # Hero section with animated counters
     ├── Marquee.jsx           # Auto-scrolling services ticker
-    ├── Services.jsx          # 4 service cards with hover effects
+    ├── Services.jsx          # Service cards with hover effects
     ├── Process.jsx           # 4-step protocol timeline
     ├── About.jsx             # Split layout: Three.js 3D + value pillars
     ├── Contact.jsx           # Form that opens mailto:hello@vittyagency.com
@@ -42,28 +54,16 @@ src/
 
 ## Features
 
-- **Framer Motion** — Page load animations, scroll reveals, staggered entries
-- **Three.js** — Animated torus knot with particle system & orbiting rings (About section)
-- **Gear Canvas** — 5 independently rotating tech gears in the background
-- **Custom Cursor** — Dot + ring follower that reacts to interactive elements
-- **Smooth Scroll Navigation** — All navbar links scroll to page sections
-- **Animated Counters** — Stats animate when scrolled into view
-- **Contact Form** — Validates and opens mailto:hello@vittyagency.com
-- **Fully Responsive** — Mobile, tablet, laptop breakpoints
-
-## Sections
-
-1. **Hero** — Main headline, CTA buttons, animated stats
-2. **Marquee** — Scrolling ticker
-3. **Services** — AI Automation, Lead Generation, CRM Integration, Retention Systems
-4. **Process** — 4-step Vitty Protocol
-5. **About** — Who we are, 3 value pillars, Three.js visual
-6. **Contact** — Free AI Audit booking form
-7. **Footer** — Links, social, branding
+- **Dynamic Loading Screen** — Performant animated typing sequence that transitions seamlessly into the navigation.
+- **Lazy Loading** — Optimizes performance by progressively loading heavier sections.
+- **Three.js & Canvas Backgrounds** — Incorporates 3D and canvas-based animations for an engaging, premium feel.
+- **Framer Motion** — Used for precise and smooth transitions across components.
+- **Scroll Reveals** — Content gracefully appears as the user scrolls down using `IntersectionObserver`.
+- **Responsive Design** — Tailored viewing experience across mobile, tablet, and desktop breakpoints.
 
 ## Contact Form
 
-The form composes a mailto link to `hello@vittyagency.com` with all form fields pre-filled in the email body. To switch to a real API (e.g. EmailJS, Resend, or a backend endpoint), replace the `handleSubmit` logic in `Contact.jsx`.
+The form builds a dynamic `mailto` link to `hello@vittyagency.com` with all form fields pre-filled in the email body. This can be easily swapped out for an API integration (like EmailJS or a custom backend) by modifying the `handleSubmit` logic in `Contact.jsx`.
 
 ## Colors
 
