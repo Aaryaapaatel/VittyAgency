@@ -79,6 +79,7 @@ export default function Contact() {
     setChooserOpen(false)
     setStatus(null)
   }
+  
 
   return (
     <section id="contact" style={{
